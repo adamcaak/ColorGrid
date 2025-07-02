@@ -8,14 +8,49 @@
 import SwiftUI
 
 struct ContentView: View {
+    let columnsLayout = Array(repeating: GridItem(), count: 3)
+    @State private var selectedColor = Color.gray
+    let allColors: [Color] = [
+        .pink,
+        .red,
+        .orange,
+        .yellow,
+        .green,
+        .mint,
+        .teal,
+        .cyan,
+        .blue,
+        .indigo,
+        .purple,
+        .brown,
+        .gray,
+        .black
+    ]
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text("Selected Color")
+                .font(.body)
+                .fontWeight(.semibold)
+                .foregroundColor(selectedColor)
+                .padding(10)
+            
+            ScrollView {
+                LazyVGrid(columns: columnsLayout) {
+                    ForEach(allColors, id: \.description) { color in
+                        Button {
+                            selectedColor = color
+                        } label: {
+                            RoundedRectangle(cornerRadius: 4.0)
+                                .aspectRatio(1.0, contentMode: ContentMode.fit)
+                                .foregroundColor(color)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
         }
-        .padding()
+        .padding(10)
     }
 }
 
